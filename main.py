@@ -20,7 +20,7 @@ for i in range(1000):  # trains the NN 1,000 times
     ANN.train(x, y)
 
 torch.save(ANN, "algo1.weights")
-# torch.load("algo1.weights")
+# ANN = torch.load("algo1.weights")
 print("Predicted data based on trained weights: ")
 print("Input (scaled): \n" + str(xPredicted))
 print("Output: \n" + str(ANN.forward(xPredicted)))
