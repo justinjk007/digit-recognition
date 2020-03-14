@@ -4,7 +4,7 @@ import torch.nn as nn
 
 class NeuralNetwork(nn.Module):
     def __init__(self, i, o, h):
-        super().__init__() # recommended by pytorch
+        super().__init__()  # recommended by pytorch
         self.input_num = i
         self.output_num = o
         self.hidden_num = h
@@ -41,3 +41,8 @@ class NeuralNetwork(nn.Module):
         # forward + backward pass for training
         o = self.forward(x)
         self.backward(x, y, o)
+
+    def predict(self, _input):
+        # Once the neural network is trained, doing a prediction means running
+        # the input through a forward pass and collecting the output.
+        return self.forward(_input)
