@@ -28,19 +28,19 @@ class NeuralNetwork(nn.Module):
         # find the derivative the tensor _input
         return _input * (1 - _input)
 
-    def backward(self, _input, _output, o):
-        self.o_error = _output - o  # error in output
+    def backward(self, _input, exp_output, _output):
+        self.output_error = exp_output - _output  # error in output
         # derivative of sig to error
-        self.o_delta = self.o_error * self.sigmoidPrime(o)
-        self.z2_error = torch.matmul(self.o_delta, torch.t(self.w2))
+        self.output_delta = self.output_error * self.sigmoidPrime(_output)
+        self.z2_error = torch.matmul(self.output_delta, torch.t(self.w2))
         self.z2_delta = self.z2_error * self.sigmoidPrime(self.z2)
         self.w1 += torch.matmul(torch.t(_input), self.z2_delta)
-        self.w2 += torch.matmul(torch.t(self.z2), self.o_delta)
+        self.w2 += torch.matmul(torch.t(self.z2), self.output_delta)
 
-    def train(self, _input, _output):
+    def train(self, _input, exp_output):
         # forward + backward pass for training
-        o = self.forward(_input)
-        self.backward(_input, _output, o)
+        _output = self.forward(_input)
+        self.backward(_input, exp_output, _output)
 
     def predict(self, _input):
         # Once the neural network is trained, doing a prediction means running
