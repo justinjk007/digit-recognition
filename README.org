@@ -1,16 +1,17 @@
-# digit-recognition
+* digit-recognition
 ANN trained to recognize 5*9 bitmaps  for  printed  digits.
+[[Screenshot from 2020-03-14 16-51-11.png]]
 
-# Setup
+* Setup
 
-``` shell
+#+begin_src sh
 virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
-```
+#+end_src
 
 To run the sript
-
-``` shell
+#+begin_src sh
 python main.py
-```
+#+end_src
+

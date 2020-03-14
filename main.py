@@ -13,33 +13,35 @@ def spit_out_digit_from_output(output):
 
 
 def main():
-    x = torch.tensor(data.training_input, dtype=torch.float)
-    y = torch.tensor(data.training_expected_output, dtype=torch.float)
-    xPredicted = torch.tensor(data.digitSix.flatten(), dtype=torch.float)
-    xPredicted1 = torch.tensor(data.digitEight.flatten(), dtype=torch.float)
-    xPredicted2 = torch.tensor(data.digitNine.flatten(), dtype=torch.float)
-    xPredicted3 = torch.tensor(data.digitZero.flatten(), dtype=torch.float)
+    # load data
+    _input = torch.tensor(data.training_input, dtype=torch.float)
+    _output = torch.tensor(data.training_expected_output, dtype=torch.float)
+    _inputPredicted = torch.tensor(data.digitSix.flatten(), dtype=torch.float)
+    _inputPredicted1 = torch.tensor(data.digitEight.flatten(), dtype=torch.float)
+    _inputPredicted2 = torch.tensor(data.digitNine.flatten(), dtype=torch.float)
+    _inputPredicted3 = torch.tensor(data.digitZero.flatten(), dtype=torch.float)
 
-    ANN = NeuralNetwork(45, 10, 5)
-    for i in range(1000):  # trains the NN many times
+    ANN = NeuralNetwork(i=45, o=10, h=5)  # input,output,hidden layer size
+    # weight training
+    for i in range(1000):
         # mean sum squared error
         print("#" + str(i) + " error: " +
-              str(torch.mean((y - ANN(x))**2).detach().item()))
-        ANN.train(x, y)
+              str(torch.mean((_output - ANN(_input))**2).detach().item()))
+        ANN.train(_input, _output)
 
     # torch.save(ANN, "algo1.weights")
     # ANN = torch.load("algo1.weights")
     print("Predicted data based on trained weights: ")
-    print("Output: \n", spit_out_digit_from_output(ANN.predict(xPredicted)))
+    print("Output: \n", spit_out_digit_from_output(ANN.predict(_inputPredicted)))
 
     print("Predicted data based on trained weights: ")
-    print("Output: \n", spit_out_digit_from_output(ANN.predict(xPredicted1)))
+    print("Output: \n", spit_out_digit_from_output(ANN.predict(_inputPredicted1)))
 
     print("Predicted data based on trained weights: ")
-    print("Output: \n", spit_out_digit_from_output(ANN.predict(xPredicted2)))
+    print("Output: \n", spit_out_digit_from_output(ANN.predict(_inputPredicted2)))
 
     print("Predicted data based on trained weights: ")
-    print("Output: \n", spit_out_digit_from_output(ANN.predict(xPredicted3)))
+    print("Output: \n", spit_out_digit_from_output(ANN.predict(_inputPredicted3)))
 
 
 if __name__ == "__main__":
