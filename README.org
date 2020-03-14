@@ -1,8 +1,10 @@
 * digit-recognition
-ANN trained to recognize 5*9 bitmaps  for  printed  digits.
-[[Screenshot from 2020-03-14 16-51-11.png]]
+ANN trained to recognize 5*9 bitmaps for printed digits. This was
+return as a mini-project for machine learning course Winter-2020
 
-* Setup
+[[./img/header.png]]
+
+* setup
 
 #+begin_src sh
 virtualenv venv
