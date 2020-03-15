@@ -12,36 +12,36 @@ def spit_out_digit_from_output(output):
     return _.item()  # return the index number
 
 
+def test_trained_network(ANN):
+    print("Trained network being tested...\n")
+    error_count = 0
+    for i in range(len(data.testing_input)):
+        _input = torch.tensor(data.testing_input[i], dtype=torch.float)
+        exp_output = data.testing_output[i]
+        print("Expected output  : ", exp_output)
+        _output = ANN.predict(_input)
+        print("Predicted output : ", spit_out_digit_from_output(_output),"\n")
+        if(spit_out_digit_from_output(_output) != exp_output):
+            error_count+=1
+    print("Error count after testing ", len(data.testing_input), "inputs: ", error_count)
+
+
 def main():
     # load data
     _input = torch.tensor(data.training_input, dtype=torch.float)
     _output = torch.tensor(data.training_expected_output, dtype=torch.float)
-    _inputPredicted = torch.tensor(data.digitSix.flatten(), dtype=torch.float)
-    _inputPredicted1 = torch.tensor(data.digitEight.flatten(), dtype=torch.float)
-    _inputPredicted2 = torch.tensor(data.digitNine.flatten(), dtype=torch.float)
-    _inputPredicted3 = torch.tensor(data.digitZero.flatten(), dtype=torch.float)
 
     ANN = NeuralNetwork(i=45, o=10, h=5)  # input,output,hidden layer size
     # weight training
-    for i in range(1000):
+    for i in range(70000):
         # mean sum squared error
         print("#" + str(i) + " error: " +
               str(torch.mean((_output - ANN(_input))**2).detach().item()))
         ANN.train(_input, _output)
 
-    # torch.save(ANN, "algo1.weights")
+    torch.save(ANN, "algo1.weights")
     # ANN = torch.load("algo1.weights")
-    print("Predicted data based on trained weights: ")
-    print("Output: \n", spit_out_digit_from_output(ANN.predict(_inputPredicted)))
-
-    print("Predicted data based on trained weights: ")
-    print("Output: \n", spit_out_digit_from_output(ANN.predict(_inputPredicted1)))
-
-    print("Predicted data based on trained weights: ")
-    print("Output: \n", spit_out_digit_from_output(ANN.predict(_inputPredicted2)))
-
-    print("Predicted data based on trained weights: ")
-    print("Output: \n", spit_out_digit_from_output(ANN.predict(_inputPredicted3)))
+    test_trained_network(ANN)
 
 
 if __name__ == "__main__":
