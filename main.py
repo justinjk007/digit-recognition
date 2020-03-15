@@ -21,10 +21,11 @@ def test_trained_network(ANN):
         exp_output = data.testing_output[i]
         print("Expected output  : ", exp_output)
         _output = ANN.predict(_input)
-        print("Predicted output : ", spit_out_digit_from_output(_output),"\n")
-        if(spit_out_digit_from_output(_output) != exp_output):
-            error_count+=1
-    print("Error count after testing ", len(data.testing_input), "inputs: ", error_count)
+        print("Predicted output : ", spit_out_digit_from_output(_output), "\n")
+        if (spit_out_digit_from_output(_output) != exp_output):
+            error_count += 1
+    print("Error count after testing", len(data.testing_input), "inputs: ",
+          error_count)
 
 
 def main():
@@ -41,19 +42,19 @@ def main():
 
     ANN = NeuralNetwork(i=45, o=10, h=5)  # input,output,hidden layer size
     # weight training
-    for i in range(70000):
+    for i in range(15000):
         # mean sum squared error
-        # print("#" + str(i) + " error: " +
-        #       str(torch.mean((_output - ANN(_input))**2).detach().item()))
+        mean_error = torch.mean((_output - ANN(_input))**2).detach().item()
+        print("Generation: " + str(i) + " error: " + str(mean_error))
         gene_array.append(i)
-        loss_array.append(torch.mean((_output - ANN(_input))**2).detach().item())
-        ax.plot(gene_array, loss_array)
-        plt.pause(0.005)  # This is where the graph gets updated
+        loss_array.append(mean_error)
         ANN.train(_input, _output)
 
     torch.save(ANN, "algo1.weights")
-    # ANN = torch.load("algo1.weights")
     test_trained_network(ANN)
+    # ANN = torch.load("algo1.weights")
+    ax.plot(gene_array, loss_array)
+    plt.show()
 
 
 if __name__ == "__main__":
