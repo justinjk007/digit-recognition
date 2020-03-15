@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import matplotlib.pyplot as plt
 from neural_net import NeuralNetwork
 import data
 
@@ -31,12 +32,23 @@ def main():
     _input = torch.tensor(data.training_input, dtype=torch.float)
     _output = torch.tensor(data.training_expected_output, dtype=torch.float)
 
+    gene_array = []
+    loss_array = []
+    fig, ax = plt.subplots()
+    ax.set(xlabel='generation',
+           ylabel='mean sum squared error',
+           title='Neural network, error loss after each generation')
+
     ANN = NeuralNetwork(i=45, o=10, h=5)  # input,output,hidden layer size
     # weight training
     for i in range(70000):
         # mean sum squared error
-        print("#" + str(i) + " error: " +
-              str(torch.mean((_output - ANN(_input))**2).detach().item()))
+        # print("#" + str(i) + " error: " +
+        #       str(torch.mean((_output - ANN(_input))**2).detach().item()))
+        gene_array.append(i)
+        loss_array.append(torch.mean((_output - ANN(_input))**2).detach().item())
+        ax.plot(gene_array, loss_array)
+        plt.pause(0.005)  # This is where the graph gets updated
         ANN.train(_input, _output)
 
     torch.save(ANN, "algo1.weights")
