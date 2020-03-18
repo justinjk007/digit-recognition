@@ -33,12 +33,14 @@ def main():
     _input = torch.tensor(data.training_input, dtype=torch.float)
     _output = torch.tensor(data.training_expected_output, dtype=torch.float)
 
+    # This section is for plotting ##############################
     gene_array = []
     loss_array = []
     fig, ax = plt.subplots()
     ax.set(xlabel='generation',
            ylabel='mean sum squared error',
            title='Neural network, error loss after each generation')
+    # This section is for plotting ##############################
 
     ANN = NeuralNetwork(i=45, o=10, h=5)  # input,output,hidden layer size
     # weight training
